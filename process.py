@@ -9,6 +9,11 @@ import numpy
 
 
 def pixelate(image: cv2.Mat, /, width: int):
+    """Convert an image to a 2-dimensional array of RGB tuples.
+
+    The image is split into tiles, where `width` is the number of tiles in a row.
+    The average color of each tile is calculated and is used to represent a pixel.
+    """
     image_height, image_width = image.shape[0], image.shape[1]
     tile_size = image_width // width
     pixels = []
