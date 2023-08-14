@@ -1,6 +1,6 @@
 # Terminal Player
 
-Play videos and show images in the terminal.
+Play videos and render images in the terminal as text.
 
 ## Requirements
 
