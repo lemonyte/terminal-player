@@ -6,12 +6,12 @@ from sys import stdout
 from pyco import cursor, terminal
 
 
-def show_image(text: str):
+def render_image(text: str, /):
     stdout.write(text)
     stdout.flush()
 
 
-def play_video(frames: list[str], fps: int):
+def render_video(frames: list[str], /, fps: int):
     cursor.hide()
     frame_height = len(frames[0].split("\n"))
     actual_frame_height = frame_height
@@ -27,7 +27,7 @@ def play_video(frames: list[str], fps: int):
                 actual_frame_height = terminal_size.lines - start_y + 1
                 frame = "\n".join(frame.split("\n")[:actual_frame_height])
             cursor.set_position(start_x, start_y)
-            show_image(frame)
+            render_image(frame)
             time_diff = time.perf_counter() - start_time
             target_time = frame_num / fps
             time_offset = time_diff - target_time
@@ -50,12 +50,14 @@ def main():
     parser.add_argument("-l", "--loop", action="store_true")
     args = parser.parse_args()
     with open(args.file, "rb") as file:
-        media = pickle.load(file)
-    if media[0] == "image":
-        show_image(media[1])
-    elif media[0] == "video":
+        data = pickle.load(file)
+        media = data["media"]
+        media_type = data["media_type"]
+    if media_type == "image":
+        render_image(media)
+    elif media_type == "video":
         while True:
-            play_video(media[1], args.fps)
+            render_video(media, args.fps)
             if not args.loop:
                 break
 
