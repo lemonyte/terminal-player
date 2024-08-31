@@ -1,2 +1,2 @@
-opencv-python~=4.8.0.74
+opencv-python~=4.10.0.84
 pyco==1.0.0
